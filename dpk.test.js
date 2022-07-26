@@ -41,4 +41,13 @@ describe("candidateHashKey", () => {
     console.log("candidateKey-", candidateKey)
     expect(candidateKey).toBe(stringifiedCandidate);
   });
+
+  it("Check if the candidate is longer than MAX_PARTITION_KEY_LENGTH ", () => {
+    const candidate = crypto.createHash("sha3-1024").update('testkey').digest("hex");
+    const stringifiedCandidate = JSON.stringify(candidate);
+
+    const candidateKey = checkCandidateHashKey(candidate);
+    console.log("candidateKey-", candidateKey)
+    expect(candidateKey).toBe(stringifiedCandidate);
+  });
 })
