@@ -6,7 +6,8 @@ const crypto = require("crypto");
  * @returns {string | number} candidate
  */
 exports.deterministicPartitionKey = (event) => {
-
+  const TRIVIAL_PARTITION_KEY = "0";
+  const MAX_PARTITION_KEY_LENGTH = 256;
   let candidate;
 
   if (event) {
@@ -18,15 +19,6 @@ exports.deterministicPartitionKey = (event) => {
     }
   }
 
-  candidate = candidateHashKey(candidate);
-
-  return candidate;
-};
-
-function candidateHashKey(candidate) {
-  const TRIVIAL_PARTITION_KEY = "0";
-  const MAX_PARTITION_KEY_LENGTH = 256;
-
   if (candidate) {
     if (typeof candidate !== "string") {
       candidate = JSON.stringify(candidate);
@@ -34,9 +26,8 @@ function candidateHashKey(candidate) {
   } else {
     candidate = TRIVIAL_PARTITION_KEY; // covered
   }
-
   if (candidate.length > MAX_PARTITION_KEY_LENGTH) {
     candidate = crypto.createHash("sha3-512").update(candidate).digest("hex");
   }
   return candidate;
-}
+};

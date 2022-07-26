@@ -1,5 +1,5 @@
 const { deterministicPartitionKey } = require("./dpk");
-const { candidateHashKey } = require("./dpk");
+const candidateHashKey = require("./dpk");
 const crypto = require("crypto");
 
 describe("deterministicPartitionKey", () => {
@@ -28,13 +28,12 @@ describe("deterministicPartitionKey", () => {
     expect(trivialKey).toBe(expectedTrivialKey);
   });
 
-
 });
 
 
 describe("candidateHashKey", () => {
   it("Type check for the candidate ", () => {
-    const candidate = 12453
+    const candidate = 12453;
     const stringifiedCandidate = JSON.stringify(candidate);
 
     const candidateKey = candidateHashKey(candidate);
